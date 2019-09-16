@@ -1,0 +1,14 @@
+.DS_Store
+.dart_tool/
+
+.packages
+.pub/
+
+build/
+
+.flutter-plugins
+.idea
+pubspec.lock
+*.iml
+android/key.properties
+android/.gradle
