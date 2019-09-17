@@ -9,10 +9,8 @@ class FavouritesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Consumer<CocktailModel>(
-          builder: (context, cocktails, child) =>
-              CocktailsList(cocktails: cocktails.favouriteCocktails)),
-    );
+    return Consumer<CocktailModel>(
+        builder: (context, cocktailModel, child) =>
+            CocktailsList(cocktails: cocktailModel.favouriteCocktails));
   }
 }

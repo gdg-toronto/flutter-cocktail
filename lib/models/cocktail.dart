@@ -11,6 +11,7 @@ class Cocktail {
   List<String> measures;
 
   bool favourite;
+  bool detailsLoaded;
 
   Cocktail(
       {@required this.id,
@@ -21,7 +22,8 @@ class Cocktail {
       this.imageThumb,
       this.ingredients,
       this.measures,
-      this.favourite = false});
+      this.favourite = false,
+      this.detailsLoaded = false});
 
   Cocktail.fromJson(Map<String, dynamic> json)
       : id = int.parse(json['idDrink']),
@@ -38,11 +40,12 @@ class Cocktail {
             .cast<String>(),
         measures = (List<int>.generate(15, (i) => i + 1))
             .map((i) {
-              return json["strIngredient" + i.toString()];
+              return json["strMeasure" + i.toString()];
             })
             .toList()
             .cast<String>(),
-        favourite = false;
+        favourite = false,
+        detailsLoaded = json['strInstructions'] != null;
 
   void toggleFavourite() => this.favourite = !this.favourite;
 }

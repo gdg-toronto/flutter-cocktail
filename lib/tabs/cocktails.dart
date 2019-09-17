@@ -10,7 +10,7 @@ class CocktailsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CocktailModel>(
-        builder: (context, cocktails, child) =>
-            CocktailsList(cocktails: cocktails.allCocktails));
+        builder: (context, cocktailModel, child) =>
+            CocktailsList(cocktails: cocktailModel.allCocktails));
   }
 }
