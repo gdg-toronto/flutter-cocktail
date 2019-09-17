@@ -27,7 +27,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  provider: ^2.0.1+1
+  provider: ^3.1.0
   http: ^0.12.0+2
   json_api: ^2.0.2
   cached_network_image: ^1.1.1
