@@ -16,29 +16,30 @@ class CocktailDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: Stack(children: <Widget>[
-          Hero(
-              tag: cocktail.id,
-              child: CachedNetworkImage(imageUrl: cocktail.imageThumb)),
-          SingleChildScrollView(
-            child: Card(
-                elevation: 0,
-                color: Theme.of(context).primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30))),
-                margin: EdgeInsets.only(top: 300),
-                child: Padding(
-                    padding: EdgeInsets.only(top: 16, right: 16, left: 16),
-                    child: Consumer<CocktailModel>(
-                        builder: (context, cocktailModel, child) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: _buildDetailsWidgets(
-                                cocktailModel, cocktail.id))))),
-          ),
-          BackArrow()
-        ]));
+        body: Hero(
+          tag: cocktail.id,
+          child: Stack(children: <Widget>[
+            CachedNetworkImage(imageUrl: cocktail.imageThumb),
+            SingleChildScrollView(
+              child: Card(
+                  elevation: 0,
+                  color: Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30))),
+                  margin: EdgeInsets.only(top: 300),
+                  child: Padding(
+                      padding: EdgeInsets.only(top: 16, right: 16, left: 16),
+                      child: Consumer<CocktailModel>(
+                          builder: (context, cocktailModel, child) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: _buildDetailsWidgets(
+                                  cocktailModel, cocktail.id))))),
+            ),
+            BackArrow()
+          ]),
+        ));
   }
 
   List<Widget> _buildDetailsWidgets(CocktailModel cocktailModel, int id) {
