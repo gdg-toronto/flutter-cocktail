@@ -26,8 +26,11 @@ class CocktailListItem extends StatelessWidget {
         );
       },
       leading: Padding(
-        child: CachedNetworkImage(
-            height: 60, width: 60, imageUrl: cocktail.imageThumb),
+        child: Hero(
+          tag: cocktail.id,
+          child: CachedNetworkImage(
+              height: 60, width: 60, imageUrl: cocktail.imageThumb),
+        ),
         padding: EdgeInsets.all(5),
       ),
       title: Text(cocktail.title),

@@ -17,7 +17,9 @@ class CocktailDetails extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Stack(children: <Widget>[
-          CachedNetworkImage(imageUrl: cocktail.imageThumb),
+          Hero(
+              tag: cocktail.id,
+              child: CachedNetworkImage(imageUrl: cocktail.imageThumb)),
           SingleChildScrollView(
             child: Card(
                 elevation: 0,
