@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cocktail/models/cocktail.dart';
 import 'package:flutter_cocktail/providers/cocktails_model.dart';
+import 'package:flutter_cocktail/widgets/back_arrow.dart';
+import 'package:flutter_cocktail/widgets/details.dart';
 import 'package:provider/provider.dart';
 
 class CocktailDetails extends StatelessWidget {
@@ -31,63 +33,25 @@ class CocktailDetails extends StatelessWidget {
                             children: _buildDetailsWidgets(
                                 cocktailModel, cocktail.id))))),
           ),
-          backArrow(context)
+          BackArrow()
         ]));
-  }
-
-  static Widget backArrow(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Container(
-            padding: EdgeInsets.all(18.0),
-            margin: EdgeInsets.only(top: 48.0),
-            child: Icon(Icons.arrow_back, color: Colors.white)));
   }
 
   List<Widget> _buildDetailsWidgets(CocktailModel cocktailModel, int id) {
     var cocktail = cocktailModel.getCocktailById(id);
+    var detailsWidgets = DetailsWidgetHelper(cocktail);
 
-    // TODO: Refactor this
+    detailsWidgets.addCocktailTitle();
 
-    var detailsList = <Widget>[
-      Align(
-          alignment: Alignment.topCenter,
-          child: Text(cocktail.title, style: TextStyle(fontSize: 20)))
-    ];
     if (!cocktail.detailsLoaded) {
-      detailsList.addAll([
-        Divider(height: 60, color: Colors.transparent),
-        Center(child: CircularProgressIndicator())
-      ]);
+      detailsWidgets.addLoading();
     } else {
-      detailsList.addAll([
-        Divider(height: 20, color: Colors.transparent),
-        Padding(
-          padding: const EdgeInsets.all(6),
-          child: Text(
-              "${cocktailModel.getCocktailById(cocktail.id).instructions}"),
-        ),
-        Divider(height: 20, color: Colors.transparent)
-      ]);
-
-      for (int i = 0; i < cocktail.ingredients.length; i++) {
-        if (cocktail.ingredients[i] == null || cocktail.ingredients[i].isEmpty)
-          continue;
-
-        detailsList.add(Card(
-            color: Colors.grey[300],
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Text("${cocktail.measures[i]} ${cocktail.ingredients[i]}",
-                  style: TextStyle(color: Colors.black)),
-            )));
-      }
+      detailsWidgets.addInstructions();
+      detailsWidgets.addIngredients();
     }
 
-    detailsList.add(Divider(height: 60, color: Colors.transparent));
+    detailsWidgets.addFooter();
 
-    return detailsList;
+    return detailsWidgets.getWidgetList();
   }
 }
