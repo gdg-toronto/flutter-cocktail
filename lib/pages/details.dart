@@ -3,6 +3,8 @@ import 'package:flutter_cocktail/models/cocktail.dart';
 import 'package:flutter_cocktail/providers/cocktails_model.dart';
 import 'package:flutter_cocktail/widgets/back_arrow.dart';
 import 'package:flutter_cocktail/widgets/details.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 
 class CocktailDetails extends StatelessWidget {
@@ -15,7 +17,7 @@ class CocktailDetails extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Stack(children: <Widget>[
-          Image.network(cocktail.imageThumb),
+          CachedNetworkImage(imageUrl: cocktail.imageThumb),
           SingleChildScrollView(
             child: Card(
                 elevation: 0,
