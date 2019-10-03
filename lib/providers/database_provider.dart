@@ -61,7 +61,7 @@ create table $tableIngredient (
   }
 
   Future<Ingredient> insertIngredient(Ingredient ingredient) async {
-    ingredient.id = await _db.insert(tableIngredient, ingredient.toMap());
+    ingredient.id = await _db.insert(tableIngredient, ingredient.toJson());
     return ingredient;
   }
 
@@ -91,13 +91,13 @@ create table $tableIngredient (
         whereArgs: [cocktailId]);
 
     if (ingredients.length > 0) {
-      return ingredients.map((e) => Ingredient.fromMap(e)).toList();
+      return ingredients.map((e) => Ingredient.fromJson(e)).toList();
     }
     return null;
   }
 
   @override
-  Future<int> updateCocktail(Cocktail cocktail) async {
+  updateCocktail(Cocktail cocktail) async {
     if (cocktail.hasIngredients) {
       cocktail.ingredients.where((e) => e.name != null).forEach((f) async {
         await _db.rawInsert(
@@ -105,12 +105,12 @@ create table $tableIngredient (
             [f.id, cocktail.id, f.name, f.measurement]);
       });
     }
-    return await _db.update(tableCocktail, cocktail.toMap(),
+    await _db.update(tableCocktail, cocktail.toMap(),
         where: '$columnId = ?', whereArgs: [cocktail.id]);
   }
 
   @override
-  Future<void> writeCocktailList(List<Cocktail> cocktails) async {
+  writeCocktailList(List<Cocktail> cocktails) async {
     Batch batch = _db.batch();
     cocktails.forEach((e) {
       batch.insert(tableCocktail, e.toMap());

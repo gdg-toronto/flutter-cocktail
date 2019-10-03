@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_cocktail/providers/database_provider.dart';
 
@@ -37,6 +39,7 @@ class Cocktail {
                   name: json["strIngredient" + i.toString()],
                   measurement: json["strMeasure" + i.toString()]);
             })
+            .where((e) => e.name != null)
             .toList()
             .cast<Ingredient>(),
         favourite = false;
@@ -48,7 +51,10 @@ class Cocktail {
         glass = map[cocktailGlass],
         instructions = map[cocktailInstructions],
         imageThumb = map[cocktailImageThumb],
-        favourite = map[cocktailFavourite] == 1;
+        favourite = map[cocktailFavourite] == 1,
+        ingredients = (jsonDecode(map["ingredients"] ?? "[]") as List)
+            .map((e) => Ingredient.fromJson(e))
+            .toList();
 
   Map<String, dynamic> toMap() => {
         columnId: id,
@@ -60,11 +66,23 @@ class Cocktail {
         cocktailFavourite: favourite == true ? 1 : 0
       };
 
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = toMap();
+    // This is slightly hacky because SharedPrefsProvider includes ingredients
+    // nested in JSON and DatabaseProvider stores Ingredients as a separate
+    // table
+
+    map["ingredients"] =
+        jsonEncode(ingredients.map((e) => e.toJson()).toList());
+    return map;
+  }
+
   void toggleFavourite() => this.favourite = !this.favourite;
 
   bool get detailsLoaded => this.instructions != null;
 
-  bool get hasIngredients => this.ingredients != null;
+  bool get hasIngredients =>
+      this.ingredients != null && this.ingredients.isNotEmpty;
 
   void updateDetails(Cocktail cachedCocktail) {
     this.instructions = cachedCocktail.instructions;
@@ -87,13 +105,13 @@ class Ingredient {
     this.measurement,
   });
 
-  Ingredient.fromMap(Map<String, dynamic> map)
+  Ingredient.fromJson(Map<String, dynamic> map)
       : id = map[columnId],
         cocktailId = map[cocktailColumnId],
         name = map[ingredientName],
         measurement = map[ingredientMeasurement];
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         columnId: id,
         cocktailColumnId: cocktailId,
         ingredientName: name,
