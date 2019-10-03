@@ -48,7 +48,7 @@ class CocktailDetails extends StatelessWidget {
 
     detailsWidgets.addCocktailTitle();
 
-    if (!cocktail.detailsLoaded) {
+    if (!cocktail.detailsLoaded || !cocktail.hasIngredients) {
       detailsWidgets.addLoading();
     } else {
       detailsWidgets.addInstructions();

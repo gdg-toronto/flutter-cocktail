@@ -31,18 +31,17 @@ class DetailsWidgetHelper {
   }
 
   void addIngredients() {
-    for (int i = 0; i < cocktail.ingredients.length; i++) {
-      if (cocktail.ingredients[i] == null || cocktail.ingredients[i].isEmpty)
-        continue;
+    if (!cocktail.hasIngredients) return;
 
+    cocktail.ingredients.where((e) => e.name != null).forEach((e) {
       detailsList.add(Card(
           color: Colors.grey[300],
           child: Padding(
             padding: EdgeInsets.all(16),
-            child: Text("${cocktail.measures[i]} ${cocktail.ingredients[i]}",
+            child: Text(e.getNameAndMeasurement(),
                 style: TextStyle(color: Colors.black)),
           )));
-    }
+    });
   }
 
   void addFooter() {

@@ -16,7 +16,7 @@ class CocktailListItem extends StatelessWidget {
     return ListTile(
       onTap: () {
         Provider.of<CocktailModel>(context)
-            .fetchAndUpdateCocktailDetails(cocktail.id);
+            .fetchAndUpdateCocktailDetails(cocktail);
 
         Navigator.push(
           context,
