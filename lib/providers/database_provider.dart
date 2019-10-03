@@ -1,4 +1,5 @@
 import 'package:flutter_cocktail/models/cocktail.dart';
+import 'package:flutter_cocktail/providers/cache_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 final String tableCocktail = 'cocktail';
@@ -17,7 +18,7 @@ final String cocktailColumnId = 'cocktail_id';
 final String ingredientName = 'name';
 final String ingredientMeasurement = 'measurement';
 
-class DatabaseProvider {
+class DatabaseProvider implements CacheProvider {
   final List<String> cocktailColumns = [
     columnId,
     cocktailTitle,
@@ -30,7 +31,8 @@ class DatabaseProvider {
 
   Database _db;
 
-  Future open() async {
+  @override
+  open() async {
     _db = await openDatabase("cocktail.db", version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('''
@@ -76,6 +78,7 @@ create table $tableIngredient (
     return null;
   }
 
+  @override
   Future<List<Ingredient>> getIngredients(int cocktailId) async {
     List<Map> ingredients = await _db.query(tableIngredient,
         columns: [
@@ -93,6 +96,7 @@ create table $tableIngredient (
     return null;
   }
 
+  @override
   Future<int> updateCocktail(Cocktail cocktail) async {
     if (cocktail.hasIngredients) {
       cocktail.ingredients.where((e) => e.name != null).forEach((f) async {
@@ -105,6 +109,7 @@ create table $tableIngredient (
         where: '$columnId = ?', whereArgs: [cocktail.id]);
   }
 
+  @override
   Future<void> writeCocktailList(List<Cocktail> cocktails) async {
     Batch batch = _db.batch();
     cocktails.forEach((e) {
@@ -114,20 +119,22 @@ create table $tableIngredient (
     await batch.commit();
   }
 
+  @override
   Future<List<Cocktail>> getCocktails() async {
     List<Map> maps = await _db.query(tableCocktail,
         columns: cocktailColumns, groupBy: cocktailTitle);
     return maps.map((e) => Cocktail.fromMap(e)).toList();
   }
 
-  Future<int> getCocktailCount() async {
+  Future<int> _getCocktailCount() async {
     var rq = await _db.rawQuery("SELECT COUNT(*) FROM $tableCocktail");
     int count = Sqflite.firstIntValue(rq);
     return count;
   }
 
+  @override
   Future<bool> doesCacheExist() async {
-    return await getCocktailCount() > 0;
+    return await _getCocktailCount() > 0;
   }
 
   Future close() async => _db.close();

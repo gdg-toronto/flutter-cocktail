@@ -4,12 +4,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_cocktail/constants.dart';
 import 'package:flutter_cocktail/models/cocktail.dart';
+import 'package:flutter_cocktail/providers/cache_provider.dart';
 import 'package:flutter_cocktail/providers/database_provider.dart';
 import 'package:http/http.dart' as http;
 
 class CocktailModel extends ChangeNotifier {
   List<Cocktail> _cocktails = [];
-  DatabaseProvider dbProvider = DatabaseProvider();
+  CacheProvider dbProvider = DatabaseProvider();
 
   UnmodifiableListView<Cocktail> get allCocktails =>
       UnmodifiableListView(_cocktails);
