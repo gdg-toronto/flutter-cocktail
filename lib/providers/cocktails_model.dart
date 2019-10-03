@@ -8,9 +8,18 @@ import 'package:flutter_cocktail/providers/database_provider.dart';
 import 'package:http/http.dart' as http;
 
 class CocktailModel extends ChangeNotifier {
+  List<Cocktail> _cocktails = [];
+  DatabaseProvider dbProvider = DatabaseProvider();
+
+  UnmodifiableListView<Cocktail> get allCocktails =>
+      UnmodifiableListView(_cocktails);
+
+  UnmodifiableListView<Cocktail> get favouriteCocktails =>
+      UnmodifiableListView(_cocktails.where((cocktail) => cocktail.favourite));
+
   CocktailModel() {
     openDatabase().then((_) async {
-      bool cacheExists = await doesCacheExist();
+      bool cacheExists = await dbProvider.doesCacheExist();
       // TODO: Expire and update cache
 
       if (cacheExists) {
@@ -23,21 +32,8 @@ class CocktailModel extends ChangeNotifier {
     });
   }
 
-  List<Cocktail> _cocktails = [];
-  DatabaseProvider dbProvider = DatabaseProvider();
-
-  UnmodifiableListView<Cocktail> get allCocktails =>
-      UnmodifiableListView(_cocktails);
-
-  UnmodifiableListView<Cocktail> get favouriteCocktails =>
-      UnmodifiableListView(_cocktails.where((cocktail) => cocktail.favourite));
-
   Future<void> openDatabase() async {
-    await dbProvider.open("cocktail.db");
-  }
-
-  Future<bool> doesCacheExist() async {
-    return await dbProvider.getCocktailCount() > 0;
+    await dbProvider.open();
   }
 
   Future<void> writeCocktails() async {

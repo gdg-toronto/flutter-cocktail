@@ -30,8 +30,8 @@ class DatabaseProvider {
 
   Database _db;
 
-  Future open(String path) async {
-    _db = await openDatabase(path, version: 1,
+  Future open() async {
+    _db = await openDatabase("cocktail.db", version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('''
 create table $tableCocktail (
@@ -124,6 +124,10 @@ create table $tableIngredient (
     var rq = await _db.rawQuery("SELECT COUNT(*) FROM $tableCocktail");
     int count = Sqflite.firstIntValue(rq);
     return count;
+  }
+
+  Future<bool> doesCacheExist() async {
+    return await getCocktailCount() > 0;
   }
 
   Future close() async => _db.close();

@@ -11,7 +11,6 @@ class Cocktail {
   List<Ingredient> ingredients;
 
   bool favourite;
-  bool detailsLoaded;
 
   Cocktail(
       {@required this.id,
@@ -21,8 +20,7 @@ class Cocktail {
       this.instructions,
       this.imageThumb,
       this.ingredients,
-      this.favourite = false,
-      this.detailsLoaded = false});
+      this.favourite = false});
 
   Cocktail.fromJson(Map<String, dynamic> json)
       : id = int.parse(json['idDrink']),
@@ -41,8 +39,7 @@ class Cocktail {
             })
             .toList()
             .cast<Ingredient>(),
-        favourite = false,
-        detailsLoaded = json['strInstructions'] != null;
+        favourite = false;
 
   Cocktail.fromMap(Map<String, dynamic> map)
       : id = map[columnId],
@@ -51,8 +48,7 @@ class Cocktail {
         glass = map[cocktailGlass],
         instructions = map[cocktailInstructions],
         imageThumb = map[cocktailImageThumb],
-        favourite = map[cocktailFavourite] == 1,
-        detailsLoaded = map[cocktailInstructions] != null;
+        favourite = map[cocktailFavourite] == 1;
 
   Map<String, dynamic> toMap() => {
         columnId: id,
@@ -66,6 +62,8 @@ class Cocktail {
 
   void toggleFavourite() => this.favourite = !this.favourite;
 
+  bool get detailsLoaded => this.instructions != null;
+
   bool get hasIngredients => this.ingredients != null;
 
   void updateDetails(Cocktail cachedCocktail) {
@@ -73,7 +71,6 @@ class Cocktail {
     this.category = cachedCocktail.category;
     this.glass = cachedCocktail.glass;
     this.ingredients = cachedCocktail.ingredients;
-    this.detailsLoaded = cachedCocktail.instructions != null;
   }
 }
 
