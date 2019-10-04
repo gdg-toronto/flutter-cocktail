@@ -12,9 +12,9 @@ import 'package:http/http.dart' as http;
 
 class CocktailModel extends ChangeNotifier {
   List<Cocktail> _cocktails = [];
-//  CacheProvider dbProvider = DatabaseProvider();
+  CacheProvider dbProvider = DatabaseProvider();
 //  CacheProvider dbProvider = SharedPrefsProvider();
-  CacheProvider dbProvider = FirestoreProvider();
+//  CacheProvider dbProvider = FirestoreProvider();
 
   UnmodifiableListView<Cocktail> get allCocktails =>
       UnmodifiableListView(_cocktails);
@@ -54,7 +54,7 @@ class CocktailModel extends ChangeNotifier {
   Future<void> fetchCocktailList() async {
     _cocktails = await http
         .get(Constant.COCKTAIL_LIST_URL)
-        .then((r) => getFromApi(r.body));
+        .then((r) => mapJsonFromApi(r.body));
     print("size = ${_cocktails.length}");
     notifyListeners();
   }
@@ -62,7 +62,7 @@ class CocktailModel extends ChangeNotifier {
   Future<void> fetchAndUpdateCocktailDetails(Cocktail cocktail) async {
     if (!cocktail.detailsLoaded) {
       var url = Constant.COCKTAIL_DETAILS_URL + cocktail.id.toString();
-      var cocktails = await http.get(url).then((r) => getFromApi(r.body));
+      var cocktails = await http.get(url).then((r) => mapJsonFromApi(r.body));
 
       cocktail.updateDetails(cocktails[0]);
 
@@ -76,7 +76,7 @@ class CocktailModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Cocktail> getFromApi(String json) {
+  List<Cocktail> mapJsonFromApi(String json) {
     return (jsonDecode(json)['drinks'] as List)
         .map((e) => Cocktail.fromJson(e))
         .toList();
