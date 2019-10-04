@@ -10,22 +10,23 @@ class FirestoreProvider implements CacheProvider {
 
   @override
   Future<bool> doesCacheExist() async {
-    QuerySnapshot qs = await _getCocktails()
-        .getDocuments();
+    QuerySnapshot qs = await _getCocktails().getDocuments();
     return qs.documents.length > 0;
   }
 
   @override
   Future<List<Cocktail>> getCocktails() async {
-    QuerySnapshot qs = await _getCocktails()
-        .orderBy(cocktailTitle).getDocuments();
+    QuerySnapshot qs =
+        await _getCocktails().orderBy(cocktailTitle).getDocuments();
     return qs.documents.map((e) => Cocktail.fromMap(e.data)).toList();
   }
 
   @override
   Future<List<Ingredient>> getIngredients(int cocktailId) async {
-    QuerySnapshot qs = await _getIngredients().where(
-        cocktailColumnId, isEqualTo: cocktailId).orderBy(columnId).getDocuments();
+    QuerySnapshot qs = await _getIngredients()
+        .where(cocktailColumnId, isEqualTo: cocktailId)
+        .orderBy(columnId)
+        .getDocuments();
     return qs.documents.map((e) => Ingredient.fromJson(e.data)).toList();
   }
 
@@ -37,11 +38,17 @@ class FirestoreProvider implements CacheProvider {
   }
 
   _getCocktails() {
-    return _fs.collection("user").document(_fa.user.uid).collection("cocktails");
+    return _fs
+        .collection("user")
+        .document(_fa.user.uid)
+        .collection("cocktails");
   }
 
   _getIngredients() {
-    return _fs.collection("user").document(_fa.user.uid).collection("ingredients");
+    return _fs
+        .collection("user")
+        .document(_fa.user.uid)
+        .collection("ingredients");
   }
 
   @override
@@ -55,8 +62,9 @@ class FirestoreProvider implements CacheProvider {
       await batch.commit();
     }
 
-    QuerySnapshot qs = await _getCocktails().where(
-        columnId, isEqualTo: cocktail.id).getDocuments();
+    QuerySnapshot qs = await _getCocktails()
+        .where(columnId, isEqualTo: cocktail.id)
+        .getDocuments();
     String docRef = qs.documents.first.documentID;
     _getCocktails().document(docRef).updateData(cocktail.toMap());
   }
@@ -71,5 +79,4 @@ class FirestoreProvider implements CacheProvider {
 
     await batch.commit();
   }
-
 }

@@ -15,7 +15,6 @@ final String cocktailColumnId = 'cocktail_id';
 final String ingredientName = 'name';
 final String ingredientMeasurement = 'measurement';
 
-
 class Cocktail {
   int id;
   String title;
