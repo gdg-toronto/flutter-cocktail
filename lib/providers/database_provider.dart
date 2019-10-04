@@ -2,21 +2,8 @@ import 'package:flutter_cocktail/models/cocktail.dart';
 import 'package:flutter_cocktail/providers/cache_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-final String tableCocktail = 'cocktail';
-final String tableIngredient = 'ingredient';
-
-final String columnId = '_id';
-
-final String cocktailTitle = 'title';
-final String cocktailCategory = 'category';
-final String cocktailGlass = 'glass';
-final String cocktailInstructions = 'instructions';
-final String cocktailImageThumb = 'image_thumb';
-final String cocktailFavourite = 'favourite';
-
-final String cocktailColumnId = 'cocktail_id';
-final String ingredientName = 'name';
-final String ingredientMeasurement = 'measurement';
+final String _tableCocktail = 'cocktail';
+final String _tableIngredient = 'ingredient';
 
 class DatabaseProvider implements CacheProvider {
   final List<String> cocktailColumns = [
@@ -36,7 +23,7 @@ class DatabaseProvider implements CacheProvider {
     _db = await openDatabase("cocktail.db", version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('''
-create table $tableCocktail (
+create table $_tableCocktail (
   $columnId integer primary key autoincrement,
   $cocktailTitle text not null,
   $cocktailCategory text,
@@ -46,7 +33,7 @@ create table $tableCocktail (
   $cocktailFavourite integer not null)
 ''');
       await db.execute('''
-create table $tableIngredient (
+create table $_tableIngredient (
   $columnId integer primary key autoincrement,
   $cocktailColumnId integer not null,
   $ingredientName text not null,
@@ -56,17 +43,17 @@ create table $tableIngredient (
   }
 
   Future<Cocktail> insertCocktail(Cocktail cocktail) async {
-    cocktail.id = await _db.insert(tableCocktail, cocktail.toMap());
+    cocktail.id = await _db.insert(_tableCocktail, cocktail.toMap());
     return cocktail;
   }
 
   Future<Ingredient> insertIngredient(Ingredient ingredient) async {
-    ingredient.id = await _db.insert(tableIngredient, ingredient.toJson());
+    ingredient.id = await _db.insert(_tableIngredient, ingredient.toJson());
     return ingredient;
   }
 
   Future<Cocktail> getCocktail(int id) async {
-    List<Map> maps = await _db.query(tableCocktail,
+    List<Map> maps = await _db.query(_tableCocktail,
         columns: cocktailColumns, where: '$columnId = ?', whereArgs: [id]);
 
     if (maps.length > 0) {
@@ -80,7 +67,7 @@ create table $tableIngredient (
 
   @override
   Future<List<Ingredient>> getIngredients(int cocktailId) async {
-    List<Map> ingredients = await _db.query(tableIngredient,
+    List<Map> ingredients = await _db.query(_tableIngredient,
         columns: [
           columnId,
           cocktailColumnId,
@@ -101,11 +88,11 @@ create table $tableIngredient (
     if (cocktail.hasIngredients) {
       cocktail.ingredients.where((e) => e.name != null).forEach((f) async {
         await _db.rawInsert(
-            "INSERT OR REPLACE INTO $tableIngredient (_id, cocktail_id, name, measurement) VALUES (?, ?, ?, ?)",
+            "INSERT OR REPLACE INTO $_tableIngredient (_id, cocktail_id, name, measurement) VALUES (?, ?, ?, ?)",
             [f.id, cocktail.id, f.name, f.measurement]);
       });
     }
-    await _db.update(tableCocktail, cocktail.toMap(),
+    await _db.update(_tableCocktail, cocktail.toMap(),
         where: '$columnId = ?', whereArgs: [cocktail.id]);
   }
 
@@ -113,7 +100,7 @@ create table $tableIngredient (
   writeCocktailList(List<Cocktail> cocktails) async {
     Batch batch = _db.batch();
     cocktails.forEach((e) {
-      batch.insert(tableCocktail, e.toMap());
+      batch.insert(_tableCocktail, e.toMap());
     });
 
     await batch.commit();
@@ -121,13 +108,13 @@ create table $tableIngredient (
 
   @override
   Future<List<Cocktail>> getCocktails() async {
-    List<Map> maps = await _db.query(tableCocktail,
+    List<Map> maps = await _db.query(_tableCocktail,
         columns: cocktailColumns, groupBy: cocktailTitle);
     return maps.map((e) => Cocktail.fromMap(e)).toList();
   }
 
   Future<int> _getCocktailCount() async {
-    var rq = await _db.rawQuery("SELECT COUNT(*) FROM $tableCocktail");
+    var rq = await _db.rawQuery("SELECT COUNT(*) FROM $_tableCocktail");
     int count = Sqflite.firstIntValue(rq);
     return count;
   }

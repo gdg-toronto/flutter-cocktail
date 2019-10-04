@@ -3,7 +3,6 @@ import 'package:flutter_cocktail/models/cocktail.dart';
 import 'package:flutter_cocktail/providers/cache_provider.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_cocktail/providers/database_provider.dart';
 
 class FirestoreProvider implements CacheProvider {
   var _fs;

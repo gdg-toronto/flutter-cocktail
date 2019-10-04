@@ -1,7 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_cocktail/providers/database_provider.dart';
+
+final String columnId = '_id';
+
+final String cocktailTitle = 'title';
+final String cocktailCategory = 'category';
+final String cocktailGlass = 'glass';
+final String cocktailInstructions = 'instructions';
+final String cocktailImageThumb = 'image_thumb';
+final String cocktailFavourite = 'favourite';
+
+final String cocktailColumnId = 'cocktail_id';
+final String ingredientName = 'name';
+final String ingredientMeasurement = 'measurement';
+
 
 class Cocktail {
   int id;
