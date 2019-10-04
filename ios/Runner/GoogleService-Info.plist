@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>256534135997-u3t92ll3ptb0k2okaie0iouu831hkgoe.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.256534135997-u3t92ll3ptb0k2okaie0iouu831hkgoe</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCo2cBRdTlAbxCa9cR_2GCR-evRn5Qj5jk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>256534135997</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ca.mimic.flutterCocktail</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-cocktail</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-cocktail.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:256534135997:ios:753a39dd700df2becde3d4</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutter-cocktail.firebaseio.com</string>
+</dict>
+</plist>

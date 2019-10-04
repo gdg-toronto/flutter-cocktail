@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "256534135997",
+    "firebase_url": "https://flutter-cocktail.firebaseio.com",
+    "project_id": "flutter-cocktail",
+    "storage_bucket": "flutter-cocktail.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256534135997:android:787b42f62923a4f2cde3d4",
+        "android_client_info": {
+          "package_name": "ca.mimic.flutter_cocktail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256534135997-fegr20foc1vtqa21rvlovjq4don68ekj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3RvbyDdX9WaToRXPpiE0oJjDx1Z0nChI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256534135997-fegr20foc1vtqa21rvlovjq4don68ekj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

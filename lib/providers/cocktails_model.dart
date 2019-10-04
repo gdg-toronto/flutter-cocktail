@@ -6,13 +6,15 @@ import 'package:flutter_cocktail/constants.dart';
 import 'package:flutter_cocktail/models/cocktail.dart';
 import 'package:flutter_cocktail/providers/cache_provider.dart';
 import 'package:flutter_cocktail/providers/database_provider.dart';
+import 'package:flutter_cocktail/providers/firestore_provider.dart';
 import 'package:flutter_cocktail/providers/shared_prefs_provider.dart';
 import 'package:http/http.dart' as http;
 
 class CocktailModel extends ChangeNotifier {
   List<Cocktail> _cocktails = [];
 //  CacheProvider dbProvider = DatabaseProvider();
-  CacheProvider dbProvider = SharedPrefsProvider();
+//  CacheProvider dbProvider = SharedPrefsProvider();
+  CacheProvider dbProvider = FirestoreProvider();
 
   UnmodifiableListView<Cocktail> get allCocktails =>
       UnmodifiableListView(_cocktails);
