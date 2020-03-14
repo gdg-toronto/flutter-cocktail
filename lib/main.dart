@@ -10,7 +10,7 @@ class CocktailsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      builder: (context) => CocktailModel(),
+      create: (BuildContext context) => CocktailModel(),
       child: MaterialApp(
         title: 'Cocktail frenzy',
         theme: ThemeData.dark(),
