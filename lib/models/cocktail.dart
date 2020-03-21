@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
+
+part 'cocktail.g.dart';
 
 final String columnId = '_id';
 
@@ -15,15 +18,24 @@ final String cocktailColumnId = 'cocktail_id';
 final String ingredientName = 'name';
 final String ingredientMeasurement = 'measurement';
 
-class Cocktail {
+@HiveType(typeId: 0)
+class Cocktail extends HiveObject {
+  @HiveField(0)
   int id;
+  @HiveField(1)
   String title;
+  @HiveField(2)
   String category;
+  @HiveField(3)
   String glass;
+  @HiveField(4)
   String instructions;
+  @HiveField(5)
   String imageThumb;
+  @HiveField(6)
   List<Ingredient> ingredients;
 
+  @HiveField(7)
   bool favourite;
 
   Cocktail(
@@ -104,10 +116,15 @@ class Cocktail {
   }
 }
 
-class Ingredient {
+@HiveType(typeId: 1)
+class Ingredient extends HiveObject {
+  @HiveField(0)
   int id;
+  @HiveField(1)
   int cocktailId;
+  @HiveField(2)
   String name;
+  @HiveField(3)
   String measurement;
 
   Ingredient({

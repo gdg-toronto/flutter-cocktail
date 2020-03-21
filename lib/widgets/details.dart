@@ -33,7 +33,9 @@ class DetailsWidgetHelper {
   void addIngredients() {
     if (!cocktail.hasIngredients) return;
 
-    cocktail.ingredients.where((e) => e.name != null).forEach((e) {
+    cocktail.ingredients
+        .where((e) => (e.name != null && e.name.isNotEmpty))
+        .forEach((e) {
       detailsList.add(Card(
           color: Colors.grey[300],
           child: Padding(

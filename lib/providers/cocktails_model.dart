@@ -7,12 +7,14 @@ import 'package:flutter_cocktail/models/cocktail.dart';
 import 'package:flutter_cocktail/providers/cache_provider.dart';
 import 'package:flutter_cocktail/providers/database_provider.dart';
 import 'package:flutter_cocktail/providers/firestore_provider.dart';
+import 'package:flutter_cocktail/providers/hive_provider.dart';
 import 'package:flutter_cocktail/providers/shared_prefs_provider.dart';
 import 'package:http/http.dart' as http;
 
 class CocktailModel extends ChangeNotifier {
   List<Cocktail> _cocktails = [];
-  CacheProvider dbProvider = DatabaseProvider();
+  CacheProvider dbProvider = HiveProvider();
+//  CacheProvider dbProvider = DatabaseProvider();
 //  CacheProvider dbProvider = SharedPrefsProvider();
 //  CacheProvider dbProvider = FirestoreProvider();
 
